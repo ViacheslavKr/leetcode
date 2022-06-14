@@ -25,6 +25,30 @@ class Problems1651_1700 {
 
     }
 
+    /*
+    1695. Maximum Erasure Value
+    https://leetcode.com/problems/maximum-erasure-value/
+     */
+    fun maximumUniqueSubarray(nums: IntArray): Int {
+        var pR = 0
+        var pL = 0
+        val subArrayItems = mutableSetOf<Int>()
+        var maxScore = 0
+        var curScore = 0
+
+
+        while (pR <= nums.lastIndex) {
+            while (!subArrayItems.add(nums[pR])) {
+                curScore -= nums[pL]
+                subArrayItems.remove(nums[pL++])
+            }
+            curScore += nums[pR]
+            maxScore = maxOf(curScore, maxScore)
+            pR++
+        }
+        return maxScore
+    }
+
 }
 
 
