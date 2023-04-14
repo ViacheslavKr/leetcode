@@ -9,8 +9,8 @@ class Problems51_100 {
      */
 
     fun rotateRight(head: ListNode?, k: Int): ListNode? {
-        var head1:ListNode
-        var tail:ListNode
+        var head1: ListNode
+        var tail: ListNode
 
         head1 = head!!
         tail = head
@@ -30,6 +30,55 @@ class Problems51_100 {
 
     }
 
+    /*
+    71. Simplify Path
+    https://leetcode.com/problems/simplify-path/
+     */
+    fun simplifyPath(path: String): String {
+        fun isPeriod(f: String) = f == "." || f == ".."
+
+        val folders = mutableListOf<String>()
+
+        var entity = ""
+        for (i in 0..path.lastIndex) {
+            if (path[i] != '/') {
+                entity += path[i]
+            } else if (entity.isNotEmpty()) {
+                folders.add(entity)
+                entity = ""
+            }
+
+        }
+        if (entity.isNotEmpty()) {
+            folders.add(entity)
+        }
+        var res = ""
+        var cursor = folders.lastIndex
+        while (cursor >= 0) {
+            val currentFolder = folders[cursor]
+            if (!isPeriod(currentFolder)) {
+                if (currentFolder != "") {
+                    res = "/$currentFolder$res"
+                }
+
+            } else {
+                if (currentFolder == ".." && cursor > 0) {
+                    var c1 = cursor - 1
+                    while (c1 >= 1 && (isPeriod(folders[c1]) || (folders[c1] == ""))) {
+                        c1--
+                    }
+                    folders[c1] = ""
+                }
+            }
+            cursor--
+
+
+        }
+
+        return if (res == "") "/" else res
+
+
+    }
 
     /*
     88. Merge Sorted Array
